@@ -1,2 +1,0 @@
-# MLIR LOGO
-
