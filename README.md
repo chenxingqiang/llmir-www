@@ -1,33 +1,44 @@
-# MLIR WWW
+# LLMIR WWW
 
-This contains the source code for https://mlir.llvm.org/ ; which is rendered
-from the `gh-pages` branch of the same repo using GitHub pages.
+This contains the source code for https://chenxingqiang.github.io/llmir-www/ which is rendered from the `gh-pages` branch of the same repo using GitHub Pages.
 
 To contribute, feel free to fork this repository and send a pull-request.
 
-The website is deployed on every push to this repository using a GitHub
-action defined in `.github/workflows/main.yml`. It also runs every 4 hours
-to catch updates from the MLIR source repository (the LLVM monorepo), which
-is used for generating some docs.
+The website is deployed when changes are pushed to the `gh-pages` branch. You can manually trigger a build and deployment by following the instructions below.
 
-We are using the [Hugo](https://gohugo.io/) framework for generating the
-website. The source pages are written in Markdown format under the
-`website/content` folder.
+We are using the [Hugo](https://gohugo.io/) framework for generating the website. The source pages are written in Markdown format under the `docs/content` folder.
 
-A large part of the documentation is auto-generated from the MLIR source
-code. See the workflow `.github/workflows/main.yml` for the instructions
-to reproduce the entirety of https://mlir.llvm.org/ locally.
+## Local Development
 
-After running the code from the workflow, download hugo on your machine, and
-run `hugo server` from the `website` directory. You can then access a local
-version of the website from <http://localhost:1313/>; any change you
-make to the source Markdown will automatically be refreshed by the local
-hugo server.
+To preview the website locally:
 
-When making changes it is often not useful to check out the doxygen branch
-so consider checking out only the main branch. For example, if using
-[gh](https://cli.github.com/), only the following is needed
+1. Install [Hugo](https://gohugo.io/getting-started/installing/) on your machine
+2. Navigate to the `docs` directory:
+   ```sh
+   cd docs
+   ```
+3. Run the Hugo server:
+   ```sh
+   hugo server
+   ```
+4. Access the local version of the website at http://localhost:1313/
 
-```sh
-gh repo clone llvm/mlir-www -- --single-branch --branch main
-```
+Any changes you make to the source Markdown will automatically be refreshed by the local Hugo server.
+
+## Deployment
+
+The website is deployed to the `gh-pages` branch. To deploy updated content:
+
+1. Make your changes to the Markdown files in the `docs/content` directory
+2. Build the website:
+   ```sh
+   cd docs
+   hugo --minify -d ../public
+   ```
+3. Add a `.nojekyll` file to disable GitHub Pages Jekyll processing:
+   ```sh
+   touch ../public/.nojekyll
+   ```
+4. Push the contents of the `public` directory to the `gh-pages` branch
+
+Alternatively, you can use the GitHub Actions workflow defined in `.github/workflows/main.yml` to automate this process.
