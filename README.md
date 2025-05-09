@@ -27,7 +27,19 @@ Any changes you make to the source Markdown will automatically be refreshed by t
 
 ## Deployment
 
-The website is deployed to the `gh-pages` branch. To deploy updated content:
+### Automatic Deployment Script
+
+We provide a shell script to automate the deployment process:
+
+```sh
+./gh-pages.sh
+```
+
+This script will build the website, create a clean `gh-pages` branch, and push the built content to GitHub.
+
+### Manual Deployment
+
+If you prefer to deploy manually:
 
 1. Make your changes to the Markdown files in the `docs/content` directory
 2. Build the website:
