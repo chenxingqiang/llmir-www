@@ -1,43 +1,54 @@
 ---
 title: "LLMIR Related Publications"
-date: 2023-10-23T15:26:15Z
+date: 2024-05-09T15:26:15Z
 draft: false
 weight: 1
 ---
 
-## Publications
+# LLMIR Publications
 
-* [LLMIR: A Specialized Intermediate Representation for Large Language Model Inference](https://example.org/llmir-paper) -
-  Chen Xingqiang, Li Wei, Zhang Hua, Wang Xin - In proceedings of 2023 ACM/IEEE International Symposium on Compiler Optimization for LLMs (CO-LLM) - pp. 15-28 -
-  A preprint is available on [arXiv](https://arxiv.org/abs/example), see
-  [FAQ](https://llmir.llvm.org/getting_started/Faq/#how-to-refer-to-llmir-in-publications-is-there-an-accompanying-paper)
-  for citation how-to.
+## Planned Publications
 
-### About LLMIR and LLMIR Components
+As LLMIR is a new project in active development, formal publications are currently in preparation. The following represents our publication roadmap as the project matures:
 
-* [Optimizing KV Cache Management Through LLMIR](https://example.org/llmir-kvcache) -
-  Chen Xingqiang, Zhou Mei, Wang Xin, Jiang Hao - In Proceedings of
-  the International Conference on Machine Learning (ICML) - pp. 354-368 - July 12,
-  2024.
-* [LLMIR for Quantization: Compiler Support for Efficient LLM Inference](https://example.org/llmir-quantization) -
-  Li Wei, Chen Xingqiang, Zhang Hua, Liu Yang - ACM Transactions on Machine Learning, September, 2024.
-  Appeared as preprint on [arXiv](https://arxiv.org/abs/example-quant), May 15, 2024.
-* [Distributed LLM Inference with LLMIR Pipeline Parallelism](https://example.org/llmir-pipeline) -
-  Wang Xin, Chen Xingqiang, Zhou Mei, Jiang Hao - In proceedings of the International Conference on 
-  Distributed Computing Systems (ICDCS) - August 5, 2024 - pp. 241-256. An *extended version* is available on
-  [arXiv](https://arxiv.org/abs/example-dist).
-* [Hardware-Specific Optimizations for LLM Inference: The LLMIR Approach](https://example.org/llmir-hardware) -
-  Zhang Hua, Chen Xingqiang, Li Wei, Liu Yang - IEEE Transactions on Parallel Computing and Distributed Systems, October 2024.
+### Core LLMIR Architecture
 
-### Using LLMIR
+* **LLMIR: A Specialized Intermediate Representation for Large Language Model Inference** - 
+  A comprehensive overview of the LLMIR architecture, design principles, and implementation strategy.
+  
+* **Optimizing KV Cache Management Through LLMIR** - 
+  A detailed exploration of how LLMIR represents and optimizes key-value caches for transformer models.
 
-* [Integrating vLLM and LLMIR for High-Performance Inference](https://example.org/vllm-llmir)
-* [SGLang Meets LLMIR: A Compilation Pathway for Efficient Multi-Agent LLM Systems](https://example.org/sglang-llmir)
-* [LLMIR for Transformer Hardware Accelerators](https://example.org/llmir-accelerators)
-* [Optimizing Attention Computation with LLMIR Fusion Techniques](https://example.org/llmir-attention)
-* [LLMIR-GPT: A Reference Implementation for LLM Inference Optimization](https://example.org/llmir-gpt) -
-  Chen Xingqiang, TuringAI Team
-* [Compiling Multi-Modal LLMs with LLMIR](https://example.org/multimodal-llmir)
-* [From PyTorch to Silicon: LLMIR as an Inference Compilation Bridge](https://example.org/llmir-bridge)
-* [Serving LLMs at Scale: LLMIR's Role in Production Deployment](https://example.org/llmir-deployment)
+* **LLMIR for Quantization: Compiler Support for Efficient LLM Inference** - 
+  An exploration of LLMIR's approach to quantization for reduced memory footprint and improved performance.
+
+### LLMIR Applications
+
+* **Distributed LLM Inference with LLMIR Pipeline Parallelism** - 
+  How LLMIR enables efficient distribution of LLM computation across multiple devices.
+
+* **Hardware-Specific Optimizations for LLM Inference: The LLMIR Approach** - 
+  An exploration of LLMIR's strategies for targeting different hardware backends.
+
+## Technical Documents
+
+In the meantime, we maintain detailed technical documentation:
+
+* [Development Plan](https://github.com/chenxingqiang/llmir.git) - 
+  The comprehensive development roadmap for LLMIR, including architectural details and implementation strategies.
+
+* [LLMIR Architecture Overview](/getting_started/DeveloperGuide/) - 
+  Technical overview of the LLMIR system architecture and key components.
+
+## Early Adopters & Case Studies
+
+As LLMIR matures, we plan to document case studies on:
+
+* Integration with vLLM for high-performance inference
+* SGLang and LLMIR for structured generation
+* LLMIR optimization techniques for various hardware targets
+
+## Contact for Research Collaboration
+
+If you're interested in collaborating on LLMIR-related research or publications, please contact the project maintainers through our [GitHub repository](https://github.com/chenxingqiang/llmir.git).
 

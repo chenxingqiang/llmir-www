@@ -1,9 +1,104 @@
 ---
 title: "FAQ"
-date: "2019-11-29"
+date: "2024-05-09"
 menu: "main"
 weight: 10
 ---
+
+# Frequently Asked Questions about LLMIR
+
+## What is LLMIR?
+
+LLMIR (Large Language Model Intermediate Representation) is a compiler infrastructure for large language models based on MLIR (Multi-Level Intermediate Representation). It's designed to optimize and accelerate LLM inference through specialized compilation techniques, providing a unified intermediate representation layer for different LLM frameworks.
+
+## What problem does LLMIR solve?
+
+LLMIR addresses several key challenges in LLM inference:
+
+1. **Performance bottlenecks**: By applying compiler optimization techniques, LLMIR reduces inference latency and improves throughput.
+2. **Memory efficiency**: Through optimizations like efficient KV cache management, LLMIR enables processing of longer sequences and larger batch sizes with less memory.
+3. **Framework fragmentation**: LLMIR provides a unified compilation layer that works across different LLM frameworks (like vLLM and SGLang).
+4. **Hardware diversity**: LLMIR enables efficient targeting of different hardware platforms (GPUs, CPUs, accelerators) from the same source representation.
+
+## How does LLMIR relate to MLIR?
+
+LLMIR is built on top of MLIR, which provides the foundational compiler infrastructure. LLMIR extends MLIR with:
+
+1. **LLM-specific dialect**: Custom operations and types specifically designed for LLM inference
+2. **Specialized optimizations**: Passes targeting key performance bottlenecks in LLM workloads
+3. **Runtime components**: Libraries for efficient execution of compiled LLM models
+
+## What is the current status of LLMIR?
+
+LLMIR is currently in active development. We are following the development plan as outlined in our [GitHub repository](https://github.com/chenxingqiang/llmir.git). The project is in the early phases of building the core infrastructure and defining the MLIR dialect.
+
+## What features does LLMIR support?
+
+LLMIR is being developed in phases:
+
+### Phase 1 (Current Focus)
+- Basic infrastructure: MLIR dialect, type system, core operations
+
+### Phase 2 (Planned)
+- KV cache optimization
+- Attention computation fusion
+- Memory management optimizations
+
+### Phase 3 (Future)
+- Quantization support
+- Parallelism strategies (tensor/pipeline)
+- Advanced backend code generation
+
+## How can I contribute to LLMIR?
+
+Contributions to LLMIR are welcome! Here's how you can contribute:
+
+1. Clone the [repository](https://github.com/chenxingqiang/llmir.git) and familiarize yourself with the code
+2. Check the development plan to see which areas need attention
+3. Follow standard MLIR development practices
+4. Submit pull requests with well-tested changes
+
+## Which LLM frameworks does LLMIR support?
+
+LLMIR is being designed to initially support:
+
+1. **vLLM**: For its efficient paged attention mechanism
+2. **SGLang**: For its structured generation capabilities
+
+Additional framework support may be added in the future.
+
+## What hardware targets does LLMIR support?
+
+LLMIR aims to support:
+
+1. **NVIDIA GPUs** (via CUDA code generation)
+2. **AMD GPUs** (via ROCm/HIP)
+3. **x86/ARM CPUs** (via LLVM)
+4. **Specialized accelerators** (future support)
+
+## How does LLMIR compare to other LLM optimization frameworks?
+
+Unlike framework-specific optimizers, LLMIR provides a cross-framework compilation layer. Compared to:
+
+- **TensorRT-LLM**: LLMIR offers more flexibility in model representation and isn't tied to a specific vendor
+- **Framework-native optimizers**: LLMIR enables cross-framework optimizations and consistent hardware targeting
+- **Generic ML compilers**: LLMIR includes specialized optimizations for LLM inference patterns
+
+## How can I use LLMIR in my project?
+
+LLMIR is still in the early development phase. When ready for use, it will provide:
+
+1. A C++ API for integrating into compilation workflows
+2. Python bindings for easy integration with Python-based ML frameworks
+3. Command-line tools for converting and optimizing models
+
+## Where can I learn more about LLMIR?
+
+The primary resources for learning about LLMIR are:
+
+1. [GitHub Repository](https://github.com/chenxingqiang/llmir.git)
+2. [Project Website](https://chenxingqiang.github.io/llmir-www/)
+3. [Developer Guide](/getting_started/DeveloperGuide/)
 
 ## How to refer to MLIR in publications? Is there an accompanying paper?
 
