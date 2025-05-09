@@ -1,5 +1,5 @@
 ---
-date: 2017-10-19T15:26:15Z
+date: 2023-10-19T15:26:15Z
 lastmod: 2023-10-26T15:26:15Z
 publishdate: 2023-11-23T15:26:15Z
 ---
@@ -30,15 +30,12 @@ to keep up-to-date with the schedule.
 If you'd like to discuss a particular topic or have questions, please add it to the
 [agenda doc](https://docs.google.com/document/d/1y2YlcOVMPocQjSFi3X6gYGRjA0onyqr41ilXji10phw/edit#).
 
-The meetings are recorded and published in the [talks](talks/) section.
-
 ## More resources
 
 For more information on LLMIR, please see:
 
 *   The LLMIR section of the [LLVM forums](https://llvm.discourse.group/c/llmir/31) for any questions.
 *   Real-time discussion on the LLMIR channel of the [LLVM discord](https://discord.gg/xS7Z362) server.
-*   Previous [talks](talks/).
 *   [Developer Guide](/getting_started/DeveloperGuide/) for getting started with LLMIR.
 
 ## What is LLMIR for?

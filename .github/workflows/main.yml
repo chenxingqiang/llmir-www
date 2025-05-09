@@ -4,9 +4,6 @@ on:
   push:
     branches:
     - main
-  schedule:
-    # Always regenerate once every 4 hour
-    - cron:  '15 */4 * * *'
   pull_request:
   workflow_dispatch:
 
@@ -22,50 +19,23 @@ jobs:
       contents: write
     runs-on: ubuntu-22.04
     steps:
-    - name: Timestamp Begin
-      run: date
-
-    - uses: actions/checkout@v3
-
-    - name: Print mlir-www-helper --help
-      run: ./mlir-www-helper.sh --help
-
-    - name: Install dependencies
-      run: sudo apt-get install doxygen graphviz
-
-    - name: Clone LLVM repo
+    - name: Checkout
       uses: actions/checkout@v3
       with:
-        repository: llvm/llvm-project
-        ref: 'main'
-        path: 'llvm_src'
-
-    - name: Build MLIR Dialect docs & doxygen src
-      run: |
-        mkdir llvm_src/build
-        cd llvm_src/build
-        cmake ../llvm \
-          -DCMAKE_BUILD_TYPE=Release \
-          -DLLVM_ENABLE_PROJECTS=mlir \
-          -DLLVM_TARGETS_TO_BUILD="host" \
-          -DMLIR_INCLUDE_DOCS="true" \
-          -DLLVM_ENABLE_DOXYGEN="true"
-        make -j$(nproc) mlir-doc doxygen-mlir
-
-    - name: Install docs
-      run: ./mlir-www-helper.sh --install-docs "llvm_src" "website"
+        submodules: true
+        fetch-depth: 0
 
     - name: Setup Hugo
       uses: peaceiris/actions-hugo@v2
       with:
         hugo-version: '0.119.0'
-        extended: false
+        extended: true
 
-    - name: Build Website
+    - name: Build
       run: |
         cd website
         hugo --minify -d ../public
-        echo -n mlir.llvm.org > ../public/CNAME
+        echo -n "chenxingqiang.github.io" > ../public/CNAME
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
@@ -77,6 +47,3 @@ jobs:
         force_orphan: true
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
-
-    - name: Timestamp End
-      run: date

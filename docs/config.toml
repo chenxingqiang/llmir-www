@@ -1,6 +1,6 @@
-baseURL = "https://mlir.llvm.org/"
+baseURL = "https://chenxingqiang.github.io/llmir-www/"
 languageCode = "en-us"
-title = "MLIR"
+title = "LLMIR"
 theme = "mlir"
 
 hasCJKLanguage = true
@@ -18,16 +18,14 @@ disablePathToLower = true
 [Params]
 
     # Souce Code repository section
-    description = "Multi-Level IR Compiler Framework"
+    description = "Large Language Model IR Compiler Framework"
     # Update menubar link too.
-    # TODO(jpienaar): Find a way that doesn't duplicate it or
-    # require redirect.
-    github_repository = "https://github.com/llvm/llvm-project/tree/main/mlir"
-    version = ""
+    github_repository = "https://github.com/chenxingqiang/llmir"
+    version = "0.0.1"
 
     # Documentation repository section
     # documentation repository (set edit link to documentation repository)
-    github_doc_repository = "https://github.com/llvm/mlir-www/"
+    github_doc_repository = "https://github.com/chenxingqiang/llmir-www/"
 
     # Analytic section
     google_analytics_id = "" # Your Google Analytics tracking id
@@ -59,13 +57,18 @@ disablePathToLower = true
 
 # Global menu section
 [[menu.main]]
+    name = "Governance"
+    weight = 2
+    url = "/governance/"
+
+[[menu.main]]
     name = "Community"
     weight = 3
 
 [[menu.main]]
     name = "Forums"
     parent = "Community"
-    url = "https://llvm.discourse.group/c/mlir/31"
+    url = "https://llvm.discourse.group/c/llmir/31"
     weight = 2
 
 [[menu.main]]
@@ -77,13 +80,13 @@ disablePathToLower = true
 [[menu.main]]
     name = "Source"
     weight = 10
-    url = "https://github.com/llvm/llvm-project/tree/main/mlir"
+    url = "https://github.com/chenxingqiang/llmir"
 
 [[menu.main]]
     name = "GitHub"
     parent = "Source"
     weight = 2
-    url = "https://github.com/llvm/llvm-project/tree/main/mlir"
+    url = "https://github.com/chenxingqiang/llmir"
 
 [[menu.main]]
     name = "Doxygen"
@@ -94,17 +97,17 @@ disablePathToLower = true
 [[menu.main]]
     name = "Bugs"
     weight = 20
-    url = "https://github.com/llvm/llvm-project/issues?q=is%3Aissue%20state%3Aopen%20label%3Amlir"
+    url = "https://github.com/chenxingqiang/llmir/issues"
 
 [[menu.main]]
     name = "Logo Assets"
     weight = 40
-    url = "https://github.com/llvm/mlir-www/tree/main/website/static/LogoAssets"
+    url = "https://github.com/chenxingqiang/llmir-www/tree/main/website/static/LogoAssets"
 
 [[menu.main]]
     name = "Youtube Channel"
     weight = 60
-    url = "https://www.youtube.com/MLIRCompiler"
+    url = "https://www.youtube.com/LLMIRCompiler"
 
 [markup]
   [markup.goldmark]
