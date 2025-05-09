@@ -33,8 +33,9 @@ jobs:
 
     - name: Build
       run: |
-        cd website
+        cd docs
         hugo --minify -d ../public
+        touch ../public/.nojekyll
         echo -n "chenxingqiang.github.io" > ../public/CNAME
 
     - name: Deploy
