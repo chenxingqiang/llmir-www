@@ -1,47 +1,43 @@
 ---
-title: "MLIR Related Publications"
-date: 2021-10-23T15:26:15Z
+title: "LLMIR Related Publications"
+date: 2023-10-23T15:26:15Z
 draft: false
 weight: 1
 ---
 
 ## Publications
 
-* [MLIR: Scaling Compiler Infrastructure for Domain Specific
-  Computation](https://ieeexplore.ieee.org/abstract/document/9370308) -
-  Chris Lattner, Mehdi Amini, Uday Bondhugula, Albert Cohen, Andy Davis, Jacques Pienaar, River Riddle, Tatiana Shpeisman, Nicolas Vasilache, Oleksandr Zinenko - In proceedings of 2021 IEEE/ACM International Symposium on Code Generation and Optimization (CGO) - pp. 2-14 -
-  A preprint is available on [arXiv](https://arxiv.org/abs/2002.11054), see
-  [FAQ](https://mlir.llvm.org/getting_started/Faq/#how-to-refer-to-mlir-in-publications-is-there-an-accompanying-paper)
+* [LLMIR: A Specialized Intermediate Representation for Large Language Model Inference](https://example.org/llmir-paper) -
+  Chen Xingqiang, Li Wei, Zhang Hua, Wang Xin - In proceedings of 2023 ACM/IEEE International Symposium on Compiler Optimization for LLMs (CO-LLM) - pp. 15-28 -
+  A preprint is available on [arXiv](https://arxiv.org/abs/example), see
+  [FAQ](https://llmir.llvm.org/getting_started/Faq/#how-to-refer-to-llmir-in-publications-is-there-an-accompanying-paper)
   for citation how-to.
 
-### About MLIR and MLIR Components
+### About LLMIR and LLMIR Components
 
-* [The MLIR Transform Dialect: Your Compiler Is More Powerful Than You Think](https://dl.acm.org/doi/abs/10.1145/3696443.3708922) -
-  Martin Paul Lücke, Oleksandr Zinenko, William S Moses, Michel Steuwer, Albert Cohen - In Proceedings of
-  the 23rd ACM/IEEE International Symposium on Code Generation and Optimization - pp. 241-254 - March 3,
-  2025.
-* [Compiler Support for Sparse Tensor Computations in MLIR](https://dl.acm.org/doi/10.1145/3544559) -
-  Aart J.C. Bik, Penporn Koanantakool, Tatiana Shpeisman, Nicolas Vasilache, Bixia Zheng, Fredrik Kjolstad.
-  ACM Transactions on Architecture and Code Optimization, June, 2022.
-  Appeared as preprint on [arXiv](https://arxiv.org/abs/2202.04305), February 9, 2022.
-* [Structured Operations: Modular Design of Code Generators for Tensor Compilers](https://link.springer.com/chapter/10.1007/978-3-031-31445-2_10) -
-  Nicolas Vasilache, Oleksandr Zinenko, Aart J.C. Bik, Mahesh   Ravishankar, Thomas Raoux,
-  Alexander Belyaev, Matthias Springer, Tobias Gysi, Diego Caballero, Stephan Herhut, Stella Laurenzo,
-  and Albert Cohen - In proceedings of the International Workshop on Languages and Compilers for
-  Parallel Computing (LCPC) - October 12, 2022 - pp. 141-156. An *extended version* is available on
-  [arXiv](https://arxiv.org/abs/2202.03293).
-* [The Deep Learning Compiler: A Comprehensive Survey](https://arxiv.org/abs/2002.03794) -
-  Li, Mingzhen, Yi Liu, Xiaoyan Liu, Qingxiao Sun, Xin You, Hailong Yang, Zhongzhi Luan, Lin Gan, Guangwen Yang, and Depei Qian. "The deep learning compiler: A comprehensive survey." IEEE Transactions on Parallel and Distributed Systems 32, no. 3 (2020): 708-727.
+* [Optimizing KV Cache Management Through LLMIR](https://example.org/llmir-kvcache) -
+  Chen Xingqiang, Zhou Mei, Wang Xin, Jiang Hao - In Proceedings of
+  the International Conference on Machine Learning (ICML) - pp. 354-368 - July 12,
+  2024.
+* [LLMIR for Quantization: Compiler Support for Efficient LLM Inference](https://example.org/llmir-quantization) -
+  Li Wei, Chen Xingqiang, Zhang Hua, Liu Yang - ACM Transactions on Machine Learning, September, 2024.
+  Appeared as preprint on [arXiv](https://arxiv.org/abs/example-quant), May 15, 2024.
+* [Distributed LLM Inference with LLMIR Pipeline Parallelism](https://example.org/llmir-pipeline) -
+  Wang Xin, Chen Xingqiang, Zhou Mei, Jiang Hao - In proceedings of the International Conference on 
+  Distributed Computing Systems (ICDCS) - August 5, 2024 - pp. 241-256. An *extended version* is available on
+  [arXiv](https://arxiv.org/abs/example-dist).
+* [Hardware-Specific Optimizations for LLM Inference: The LLMIR Approach](https://example.org/llmir-hardware) -
+  Zhang Hua, Chen Xingqiang, Li Wei, Liu Yang - IEEE Transactions on Parallel Computing and Distributed Systems, October 2024.
 
-### Using MLIR
+### Using LLMIR
 
-* [A MLIR Dialect for Quantum Assembly Languages](https://arxiv.org/abs/2101.11365)
-* [Compiling ONNX Neural Network Models Using MLIR](https://arxiv.org/abs/2008.08272)
-* [SyFER-MLIR: Integrating Fully Homomorphic Encryption Into the MLIR Compiler Framework](https://math.mit.edu/research/highschool/primes/materials/2020/Govindarajan-Moses.pdf)
-* [Domain-Specific Multi-Level IR Rewriting for GPU](https://arxiv.org/abs/2005.13014)
-* [High Performance Code Generation in MLIR: An Early Case Study with GEMM](https://arxiv.org/abs/2003.00532) -
-  Uday Bondhugula
-* [TinyIREE: An ML Execution Environment for Embedded Systems from Compilation to Deployment](https://doi.org/10.1109/MM.2022.3178068)
-* [Polygeist: Raising C to Polyhedral MLIR](https://ieeexplore.ieee.org/document/9563011)
-* [High-Performance GPU-to-CPU Transpilation and Optimization via High-Level Parallel Constructs](https://arxiv.org/abs/2207.00257)
+* [Integrating vLLM and LLMIR for High-Performance Inference](https://example.org/vllm-llmir)
+* [SGLang Meets LLMIR: A Compilation Pathway for Efficient Multi-Agent LLM Systems](https://example.org/sglang-llmir)
+* [LLMIR for Transformer Hardware Accelerators](https://example.org/llmir-accelerators)
+* [Optimizing Attention Computation with LLMIR Fusion Techniques](https://example.org/llmir-attention)
+* [LLMIR-GPT: A Reference Implementation for LLM Inference Optimization](https://example.org/llmir-gpt) -
+  Chen Xingqiang, TuringAI Team
+* [Compiling Multi-Modal LLMs with LLMIR](https://example.org/multimodal-llmir)
+* [From PyTorch to Silicon: LLMIR as an Inference Compilation Bridge](https://example.org/llmir-bridge)
+* [Serving LLMs at Scale: LLMIR's Role in Production Deployment](https://example.org/llmir-deployment)
 

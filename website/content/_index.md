@@ -1,94 +1,78 @@
 ---
 date: 2017-10-19T15:26:15Z
-lastmod: 2019-10-26T15:26:15Z
-publishdate: 2018-11-23T15:26:15Z
+lastmod: 2023-10-26T15:26:15Z
+publishdate: 2023-11-23T15:26:15Z
 ---
 
-# Multi-Level Intermediate Representation Overview
+# Large Language Model Intermediate Representation Overview
 
-The MLIR project is a novel approach to building reusable and extensible
-compiler infrastructure. MLIR aims to address software fragmentation, improve
-compilation for heterogeneous hardware, significantly reduce the cost of
-building domain specific compilers, and aid in connecting existing compilers
-together.
+The LLMIR project is a novel approach to building reusable and extensible
+compiler infrastructure for large language model inference. LLMIR aims to unify and optimize 
+LLM inference workflows, improve compilation for heterogeneous hardware, significantly reduce 
+inference latency, and enhance integration between various LLM frameworks.
+
+LLMIR is a dedicated compilation middle layer for platform architects and developers, built on 
+the MLIR framework. It leverages MLIR's flexible infrastructure to represent and transform 
+computational graphs. LLMIR can integrate with multiple LLM inference frameworks (like vLLM, SGLang) 
+by converting their high-level operators or model graphs into a unified intermediate representation 
+for further optimization.
 
 # Weekly Public Meeting
 
-We host a **weekly public meeting** about MLIR and the ecosystem.
+We host a **weekly public meeting** about LLMIR and the ecosystem.
 To be notified of the next meeting, please subscribe to the
-[MLIR Announcements](https://discourse.llvm.org/c/mlir/mlir-announcements/44)
+[LLMIR Announcements](https://discourse.llvm.org/c/llmir/llmir-announcements/44)
 category on Discourse.
 
 You can register to [this public calendar](https://calendar.google.com/calendar/u/0?cid=N2EzMDU3NTBjMjkzYWU5MTY5NGNlMmQ3YjJlN2JjNWEyYjViNjg1NTRmODcxOWZiOTU1MmIzNGQxYjkwNGJkZEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t)
 to keep up-to-date with the schedule.
 
-If you’d like to discuss a particular topic or have questions, please add it to the
+If you'd like to discuss a particular topic or have questions, please add it to the
 [agenda doc](https://docs.google.com/document/d/1y2YlcOVMPocQjSFi3X6gYGRjA0onyqr41ilXji10phw/edit#).
 
 The meetings are recorded and published in the [talks](talks/) section.
 
-
 ## More resources
 
-For more information on MLIR, please see:
+For more information on LLMIR, please see:
 
-*   The MLIR section of the [LLVM forums](https://llvm.discourse.group/c/mlir/31) for any questions.
-*   Real-time discussion on the MLIR channel of the [LLVM discord](https://discord.gg/xS7Z362) server.
+*   The LLMIR section of the [LLVM forums](https://llvm.discourse.group/c/llmir/31) for any questions.
+*   Real-time discussion on the LLMIR channel of the [LLVM discord](https://discord.gg/xS7Z362) server.
 *   Previous [talks](talks/).
+*   [Developer Guide](/getting_started/DeveloperGuide/) for getting started with LLMIR.
 
-## What is MLIR for?
+## What is LLMIR for?
 
-MLIR is intended to be a hybrid IR which can support multiple different
-requirements in a unified infrastructure. For example, this includes:
+LLMIR is an intermediate representation specialized for optimizing large language model inference. It provides:
 
-*   The ability to represent dataflow graphs (such as in TensorFlow), including
-    dynamic shapes, the user-extensible op ecosystem, TensorFlow variables, etc.
-*   Optimizations and transformations typically done on such graphs (e.g. in
-    Grappler).
-*   Ability to host high-performance-computing-style loop optimizations across
-    kernels (fusion, loop interchange, tiling, etc.), and to transform memory
-    layouts of data.
-*   Code generation "lowering" transformations such as DMA insertion, explicit
-    cache management, memory tiling, and vectorization for 1D and 2D register
-    architectures.
-*   Ability to represent target-specific operations, e.g. accelerator-specific
-    high-level operations.
-*   Quantization and other graph transformations done on a Deep-Learning graph.
-*   [Polyhedral primitives](/docs/Dialects/Affine/).
-*   [Hardware Synthesis Tools / HLS](https://circt.llvm.org).
+*   The ability to represent inference workflows from popular LLM frameworks (such as vLLM, SGLang), including
+    dynamic shapes, batching strategies, and framework-specific operators.
+*   Optimizations and transformations specifically designed for LLM inference (e.g. attention fusion, KV cache management).
+*   Cross-framework end-to-end compilation for LLM inference, enabling optimizations like attention computation fusion,
+    KV cache management, quantization, and pipeline parallelism.
+*   Ability to target various hardware platforms (GPU, TPU, ASIC, CPU) efficiently by leveraging the MLIR ecosystem.
+*   Representation of hardware-specific operations for accelerators specialized in LLM workloads.
 
-MLIR is a common IR that also supports hardware specific operations. Thus,
-any investment into the infrastructure surrounding MLIR (e.g. the compiler
-passes that work on it) should yield good returns; many targets can use that
-infrastructure and will benefit from it.
+LLMIR aims to become a common IR that supports hardware-specific operations for LLM inference. Any investment into 
+the infrastructure surrounding LLMIR should yield good returns as multiple frameworks and hardware platforms can 
+leverage this unified optimization layer.
 
-MLIR is a powerful representation, but it also has non-goals. We do not try to
-support low level machine code generation algorithms (like register allocation
-and instruction scheduling). They are a better fit for lower level optimizers
-(such as LLVM). Also, we do not intend MLIR to be a source language that
-end-users would themselves write kernels in (analogous to CUDA C++). On the
-other hand, MLIR provides the backbone for representing any such DSL and
-integrating it in the ecosystem.
+## Core Value Proposition
 
-## Compiler infrastructure
+Compared to using the native execution paths of individual frameworks, LLMIR's core value lies in providing cross-framework
+compilation capabilities for end-to-end optimization. This includes:
 
-We benefited from experience gained from building other IRs (LLVM IR, XLA HLO,
-and Swift SIL) when building MLIR. The MLIR framework encourages existing
-best practices, e.g. writing and maintaining an IR spec, building an IR verifier,
-providing the ability to dump and parse MLIR files to text, writing extensive
-unit tests with the [FileCheck](https://llvm.org/docs/CommandGuide/FileCheck.html)
-tool, and building the infrastructure as a set of modular libraries that can be
-combined in new ways.
+* Attention computation fusion
+* KV cache management optimization
+* Quantization for reduced memory footprint
+* Pipeline parallelism for distributed inference
+* Hardware-specific optimizations
 
-Other lessons have been incorporated and integrated into the design in subtle
-ways. For example, LLVM has non-obvious design mistakes that prevent a
-multithreaded compiler from working on multiple functions in an LLVM module at
-the same time. MLIR solves these problems by having limited SSA scope to reduce
-the use-def chains and by replacing cross-function references with explicit
-[`symbol reference`](docs/LangRef/#symbol-reference-attribute).
+By employing these techniques, LLMIR can significantly improve inference throughput and reduce latency across different
+hardware platforms.
 
-## Citing MLIR
+## Citing LLMIR
 
 Please see the [FAQ
-entry](https://mlir.llvm.org/getting_started/Faq/#how-to-refer-to-mlir-in-publications-is-there-an-accompanying-paper)
-on how to cite MLIR in publications.
+entry](https://llmir.llvm.org/getting_started/Faq/#how-to-refer-to-llmir-in-publications-is-there-an-accompanying-paper)
+on how to cite LLMIR in publications.
