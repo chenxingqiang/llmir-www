@@ -30,24 +30,26 @@ LLMIR is built on top of MLIR, which provides the foundational compiler infrastr
 
 ## What is the current status of LLMIR?
 
-LLMIR is currently in active development. We are following the development plan as outlined in our [GitHub repository](https://github.com/chenxingqiang/llmir.git). The project is in the early phases of building the core infrastructure and defining the MLIR dialect.
+LLMIR has completed Phases 1–6 of its development roadmap. The C++ MLIR dialect builds with MLIR 18, and 84/84 unit tests pass. Real model benchmarks (Qwen2.5-7B, Llama-3.1-8B) with vLLM and SGLang baselines have been verified on A800 GPUs. A paper was submitted to ICCD 2025; a revised version is ready for resubmission.
 
 ## What features does LLMIR support?
 
-LLMIR is being developed in phases:
+LLMIR has implemented the following (Phases 1–6 complete):
 
-### Phase 1 (Current Focus)
+### Phase 1–2 ✅
 - Basic infrastructure: MLIR dialect, type system, core operations
+- KV cache optimization, attention fusion, memory management
 
-### Phase 2 (Planned)
-- KV cache optimization
-- Attention computation fusion
-- Memory management optimizations
+### Phase 3–4 ✅
+- Quantization (INT8/INT4), tensor/pipeline parallelism, multi-GPU sharding
+- Speculative decoding, prefix caching, adaptive block management
 
-### Phase 3 (Future)
-- Quantization support
-- Parallelism strategies (tensor/pipeline)
-- Advanced backend code generation
+### Phase 5–6 ✅
+- Continuous batching, vLLM integration, comprehensive benchmarks
+- Python bindings, model-specific optimizations (Llama, Mistral, Phi), profiling tools
+
+### Phase 7 (Planned)
+- HuggingFace integration, distributed training, Kubernetes support
 
 ## How can I contribute to LLMIR?
 
@@ -86,11 +88,12 @@ Unlike framework-specific optimizers, LLMIR provides a cross-framework compilati
 
 ## How can I use LLMIR in my project?
 
-LLMIR is still in the early development phase. When ready for use, it will provide:
+LLMIR provides:
 
-1. A C++ API for integrating into compilation workflows
-2. Python bindings for easy integration with Python-based ML frameworks
-3. Command-line tools for converting and optimizing models
+1. **C++ API** for integrating into compilation workflows (see `include/mlir/Dialect/LLM/Runtime/`)
+2. **Python bindings** via `pip install llmir` for KV cache, profiling, and engine management
+3. **Model-specific optimizers** for Llama, Mistral, Phi (see [README](https://github.com/chenxingqiang/llmir))
+4. **Benchmark scripts** for real model comparison (`run_real_benchmark.sh`, `vllm_comparison.sh`)
 
 ## Where can I learn more about LLMIR?
 
@@ -100,9 +103,11 @@ The primary resources for learning about LLMIR are:
 2. [Project Website](https://chenxingqiang.github.io/llmir-www/)
 3. [Developer Guide](/getting_started/DeveloperGuide/)
 
-## How to refer to MLIR in publications? Is there an accompanying paper?
+## How to refer to LLMIR in publications? Is there an accompanying paper?
 
-MLIR has been presented in the 2021 IEEE/ACM International Symposium on Code
+**LLMIR**: A paper titled "LLMIR: A Compiler Infrastructure for Optimizing Large Language Model Inference" was submitted to ICCD 2025. The revised version is available in the [llmir repository](https://github.com/chenxingqiang/llmir) under `IEEE-conference/LLMIR-paper-ICCD2025-revised.tex`. See [Publications](/pubs/) for performance highlights and verification status. For formal citation, please check the repository for the latest publication venue after acceptance.
+
+**MLIR** (underlying framework): MLIR has been presented in the 2021 IEEE/ACM International Symposium on Code
 Generation and Optimization, the full text of the paper is [available from
 IEEE](https://ieeexplore.ieee.org/abstract/document/9370308). A pre-publication
 draft is available on [arXiv](https://arxiv.org/pdf/2002.11054) but may be

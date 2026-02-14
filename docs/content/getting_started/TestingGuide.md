@@ -1,13 +1,44 @@
 ---
 title: "Testing Guide"
 date: 2019-11-29T15:26:15Z
+lastmod: 2025-02-04T15:26:15Z
 draft: false
 weight: 40
 ---
 
 {{< toc >}}
 
-## Quickstart commands
+## LLMIR Testing
+
+### Python Tests (84 tests)
+
+From the llmir repository root:
+
+```sh
+python -m pytest tests/ -v
+```
+
+Or with PYTHONPATH if needed:
+
+```sh
+PYTHONPATH=src python -m pytest tests/ -v
+```
+
+Test categories: PagedKVCache, QuantizedKVCache, DistributedKVCache, SpeculativeKVCache, PrefixCache, ModelConfig, LlamaOptimizer, MistralOptimizer, PhiOptimizer, Profiling, Serving.
+
+### C++ LLM Dialect Tests
+
+```sh
+cd build_llm_dialect/build
+ninja
+./tools/llmir-opt ../test/Dialect/LLM/kv_cache_ops.mlir -kv-cache-optimization
+```
+
+See [TEST_VERIFICATION_REPORT](https://github.com/chenxingqiang/llmir/blob/main/IEEE-conference/TEST_VERIFICATION_REPORT.md) for full verification details.
+
+---
+
+## Quickstart commands (MLIR upstream)
 
 These commands are explained below in more detail. All commands are run from the
 cmake build directory `build/`, after [building the project](/getting_started/).

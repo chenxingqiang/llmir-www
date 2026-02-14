@@ -1,6 +1,7 @@
 ---
 title: "References"
 date: 2024-05-09T15:26:15Z
+lastmod: 2025-02-04T15:26:15Z
 draft: false
 weight: 10
 ---
@@ -8,6 +9,10 @@ weight: 10
 # References
 
 This page lists relevant papers, projects, and resources that have influenced the development of LLMIR or are related to LLM optimization and compilation.
+
+## LLMIR
+
+* Chen, Xingqiang. **"LLMIR: A Compiler Infrastructure for Optimizing Large Language Model Inference."** Submitted to IEEE/ACM International Conference on Computer-Aided Design (ICCD) 2025. Revised version available in the [llmir repository](https://github.com/chenxingqiang/llmir) under `IEEE-conference/LLMIR-paper-ICCD2025-revised.tex`. [Publication details](/pubs/)
 
 ## Foundational Work
 

@@ -1,6 +1,7 @@
 ---
 title: "Architecture"
 date: 2024-05-09T15:26:15Z
+lastmod: 2025-02-04T15:26:15Z
 draft: false
 weight: 2
 ---
@@ -11,12 +12,12 @@ This section provides detailed information about the LLMIR architecture, its key
 
 ## Key Features
 
-LLMIR is being developed with several key optimizations for LLM inference:
+LLMIR implements several key optimizations for LLM inference (Phases 1–6 complete):
 
-* [KV Cache Optimization](KVCache): Efficient key-value cache management techniques
-* [Quantization Support](Quantization): Comprehensive quantization capabilities 
-* [Distributed Deployment](DistributedDeployment): Support for multi-device inference
-* [Performance Evaluation](PerformanceEvaluation): Benchmarking and evaluation methodologies
+* [KV Cache Optimization](KVCache): Block-based PagedKVCache, QuantizedKVCache (INT8/INT4), SpeculativeKVCache, PrefixCache
+* [Quantization Support](Quantization): INT8 (4×) and INT4 (8×) compression for KV cache and weights
+* [Distributed Deployment](DistributedDeployment): Multi-GPU sharding (layer-wise, head-wise, sequence-wise)
+* [Performance Evaluation](PerformanceEvaluation): Verified benchmarks on A800 GPUs; vLLM/SGLang/TensorRT-LLM/MLC-LLM comparisons
 
 ## System Architecture
 
@@ -40,7 +41,7 @@ LLMIR follows a layered architecture:
 │  └──────────────┘    └───────────┬───────────┘   │
 │                                  │               │
 │                      ┌───────────▼───────────┐   │
-│                      │    Backend Generators  │   │
+│                      │    Backend Generators │   │
 │                      └───────────────────────┘   │
 └──────────────────────────┬───────────────────────┘
                            │
@@ -53,18 +54,20 @@ LLMIR follows a layered architecture:
 
 ### Front-end Converters
 
-The front-end converters are responsible for translating models and operations from existing frameworks into the LLMIR representation:
+The front-end converts models and operations from existing frameworks into the LLMIR representation:
 
-- **vLLM Converter**: Translates vLLM's model representation and PagedAttention mechanism into LLMIR
-- **SGLang Converter**: Maps SGLang's computation graphs to LLMIR operations
+- **vLLM Integration**: vLLM-compatible API via `VLLMIntegration.h`; drop-in compatibility for vLLM-based applications
+- **SGLang Support**: Maps SGLang computation graphs to LLMIR operations for cross-framework optimization
 
 ### MLIR Optimization Pipeline
 
-The optimization pipeline includes a range of passes specifically designed for LLM inference:
+The optimization pipeline (`KVCacheOptimization.cpp`) implements passes for LLM inference:
 
-- **General Optimizations**: Common compiler optimizations like constant folding, dead code elimination, and loop optimizations
-- **LLM-Specific Optimizations**: KV cache blocking, attention computation fusion, quantization transformations
-- **Hardware-Specific Optimizations**: Optimizations targeting specific hardware features
+- **Block Size Optimization**: Automatic optimal block size selection (16/32/64/128 by sequence length)
+- **Duplicate KV Fusion**: Fuse duplicate KV cache operations
+- **Cross-Sequence Sharing**: Detect and enable prefix sharing opportunities
+- **PagedAttention Optimization**: Scale factor and memory layout optimizations
+- **Attention Variants**: Flash Attention, Fused Softmax, Sliding Window, Optimized Masked (1.28×–2.15× speedup)
 
 ### Backend Generators
 
@@ -76,25 +79,36 @@ Backend generators produce optimized code for different execution targets:
 
 ### Runtime Library
 
-LLMIR includes a runtime library that provides key functionality:
+LLMIR includes a runtime library (`include/mlir/Dialect/LLM/Runtime/`) with:
 
-- **Memory Management**: Efficient KV cache allocation and scheduling
-- **Execution Scheduler**: Dynamic batching and request management
-- **Device Communication**: Multi-device data exchange for distributed inference
+- **PagedKVCache**: Block-based allocation, `appendKV`, `lookupKV`; verified on A800 GPUs
+- **QuantizedPagedKVCache**: INT8/INT4 with automatic quantization/dequantization
+- **DistributedPagedKVCache**: Layer/head/sequence-wise sharding across multiple GPUs
+- **SpeculativeKVCache**: Branch creation, rollback, draft token verification
+- **PrefixCache**: Radix tree-based prefix reuse, system prompt caching
+- **ContinuousBatchingEngine**: vLLM-style dynamic batch management
+- **ModelOptimizations**: Llama, Mistral, Phi presets; `LlamaOptimizer`, `MistralOptimizer`, `PhiOptimizer`
 
 ## LLMIR Dialect
 
-The core of LLMIR is a specialized MLIR dialect for LLM operations, including custom types and operations tailored for LLM workloads. For detailed information about specific features, please visit the dedicated pages listed above.
+The core of LLMIR is a specialized MLIR dialect for LLM operations:
+
+- **Types**: `!llm.paged_kv_cache`, `ShardedTensorType`, `QuantizedTensorType`
+- **Operations**: `llm.append_kv`, `llm.lookup_kv`, `llm.paged_attention`
+- **Build**: C++ dialect builds with MLIR 18; see [build_llm_dialect](https://github.com/chenxingqiang/llmir/tree/main/build_llm_dialect)
+
+For detailed information about specific features, please visit the dedicated pages listed above.
 
 ## Development Status
 
-LLMIR is being developed in phases according to our development plan:
+LLMIR has completed Phases 1–6. Current status:
 
-1. **Phase 1 (Current Focus)**: Building the core infrastructure, including MLIR dialect design and implementation
-2. **Phase 2 (Planned)**: Implementing core optimizations like KV cache management and attention fusion
-3. **Phase 3 (Future)**: Adding advanced features such as quantization, parallelism strategies, and advanced hardware targeting
+1. **Phase 1–2** ✅: Core infrastructure, MLIR dialect, KV cache, attention fusion
+2. **Phase 3–4** ✅: Quantization, multi-GPU sharding, speculative decoding, prefix caching, adaptive block management
+3. **Phase 5–6** ✅: Continuous batching, vLLM integration, benchmarks, Python bindings, model optimizers, profiling
+4. **Phase 7** (Planned): HuggingFace integration, distributed training, Kubernetes support
 
-For the current status and detailed roadmap, please visit our [GitHub repository](https://github.com/chenxingqiang/llmir.git).
+Verification: 84/84 Python tests passed; C++ dialect verified with MLIR 18. See [Performance Evaluation](PerformanceEvaluation) and [Publications](/pubs/).
 
 ## References
 

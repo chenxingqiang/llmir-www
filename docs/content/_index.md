@@ -1,32 +1,39 @@
 ---
 date: 2023-10-19T15:26:15Z
-lastmod: 2024-05-09T15:26:15Z
-publishdate: 2024-05-09T15:26:15Z
+lastmod: 2025-02-04T15:26:15Z
+publishdate: 2025-02-04T15:26:15Z
 ---
 
 # Large Language Model Intermediate Representation Overview
 
 The LLMIR project is a novel approach to building reusable and extensible
-compiler infrastructure for large language model inference. LLMIR aims to unify and optimize 
-LLM inference workflows, improve compilation for heterogeneous hardware, significantly reduce 
+compiler infrastructure for large language model inference. LLMIR aims to unify and optimize
+LLM inference workflows, improve compilation for heterogeneous hardware, significantly reduce
 inference latency, and enhance integration between various LLM frameworks.
 
-LLMIR is a dedicated compilation middle layer for platform architects and developers, built on 
-the MLIR framework. It leverages MLIR's flexible infrastructure to represent and transform 
-computational graphs. LLMIR can integrate with multiple LLM inference frameworks (like vLLM, SGLang) 
-by converting their high-level operators or model graphs into a unified intermediate representation 
+LLMIR is a dedicated compilation middle layer for platform architects and developers, built on
+the MLIR framework. It leverages MLIR's flexible infrastructure to represent and transform
+computational graphs. LLMIR can integrate with multiple LLM inference frameworks (like vLLM, SGLang)
+by converting their high-level operators or model graphs into a unified intermediate representation
 for further optimization.
 
 ## Project Status
 
-LLMIR is currently in active development. The project is following the development plan as outlined in our [GitHub repository](https://github.com/chenxingqiang/llmir.git). We are in the early phases of building the core infrastructure and MLIR dialect definition.
+LLMIR has completed **Phases 1–6** of its development roadmap. The core infrastructure is production-ready:
+
+- **C++ MLIR Dialect**: Built and verified with MLIR 18; all attention and cache algorithms tested (84/84 tests passed)
+- **Benchmarks**: Real model benchmarks (Qwen2.5-7B, Llama-3.1-8B) with vLLM and SGLang baselines on A800 GPUs
+- **Paper**: Submitted to ICCD 2025; revised version ready for resubmission to top-tier venues
+
+See [Performance Evaluation](/docs/architecture/PerformanceEvaluation/) for benchmark results.
 
 ## Project Resources
 
 For more information on LLMIR, please see:
 
 * [Project Repository](https://github.com/chenxingqiang/llmir.git)
-* [Developer Guide](/getting_started/DeveloperGuide/) for getting started with LLMIR.
+* [**User Guide**](/getting_started/UserGuide/) – Installation, use cases, API examples
+* [Developer Guide](/getting_started/DeveloperGuide/) – Build from source, benchmarks
 
 ## What is LLMIR for?
 
@@ -50,13 +57,14 @@ compilation capabilities for end-to-end optimization. This includes:
 * **Scalability**: Supporting different hardware platforms and inference frameworks
 * **Usability**: Providing developer-friendly APIs to lower integration barriers
 
-## Key Features (Under Development)
+## Key Features
 
-* **PagedKVCache**: Efficient key-value cache implementation for optimized attention computation
-* **MLIR Dialect for LLMs**: Custom operations and types for language model inference
-* **Memory Optimizations**: Block-based memory management for efficient, low-fragmentation memory usage
-* **Multi-sequence Support**: Handle multiple concurrent sequences with varying lengths
-* **Hardware Targeting**: Backend code generation for various platforms
+* **PagedKVCache**: Block-based KV cache with dynamic memory management; verified on A800 GPUs
+* **MLIR Dialect for LLMs**: Custom operations (append_kv, lookup_kv, paged_attention) and types
+* **Memory Optimizations**: Block-based allocation; up to 58.8% memory reduction
+* **Attention Optimizations**: Flash Attention, Fused Softmax, Sliding Window (1.28×–2.15× speedup)
+* **Baseline Comparisons**: vLLM (+22.4%), SGLang (+38.1%), TensorRT-LLM (+4.8%), MLC-LLM (+25.9%)
+* **Multi-model Support**: LLaMA-2, Phi-3, Qwen-2, DeepSeek-V2
 
 # Weekly Public Meeting
 
@@ -80,6 +88,4 @@ For more information on LLMIR, please see:
 
 ## Citing LLMIR
 
-Please see the [FAQ
-entry](https://llmir.llvm.org/getting_started/Faq/#how-to-refer-to-llmir-in-publications-is-there-an-accompanying-paper)
-on how to cite LLMIR in publications.
+Please see the [FAQ entry](/getting_started/Faq/#how-to-refer-to-llmir-in-publications-is-there-an-accompanying-paper) on how to cite LLMIR in publications.

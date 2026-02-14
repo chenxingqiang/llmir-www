@@ -1,13 +1,14 @@
 ---
 title: "Quantization Support"
 date: 2024-05-09T15:26:15Z
+lastmod: 2025-02-04T15:26:15Z
 draft: false
 weight: 3
 ---
 
 # Quantization Support in LLMIR
 
-Quantization is a critical optimization technique for large language models, reducing memory footprint and computation requirements by using lower-precision representations of weights and activations. LLMIR provides comprehensive support for quantization through specialized representations and transformations.
+Quantization reduces memory footprint and computation by using lower-precision representations. LLMIR provides quantization through specialized types and runtime implementations. **QuantizedKVCache is implemented and verified** (84/84 tests; INT8 4×, INT4 8× compression).
 
 ## Quantization in LLMIR
 
@@ -54,7 +55,7 @@ LLMIR defines specialized types for representing quantized tensors:
 
 ## Quantization Methods
 
-LLMIR will support multiple quantization strategies:
+LLMIR supports multiple quantization strategies:
 
 ### Post-Training Quantization (PTQ)
 
@@ -71,7 +72,7 @@ LLMIR will support multiple quantization strategies:
 
 ## Optimization Passes
 
-LLMIR will include several quantization-related optimization passes:
+LLMIR includes quantization-related optimization passes:
 
 1. **QuantizationCalibrationPass**: Analyze model to determine optimal quantization parameters
 2. **WeightQuantizationPass**: Convert model weights to quantized formats
@@ -90,10 +91,16 @@ LLMIR's quantization system is designed to integrate with various hardware backe
 
 ## Runtime Support
 
-The LLMIR runtime will provide efficient implementations for quantized operations:
+The LLMIR runtime provides efficient implementations for quantized KV cache:
 
 ```cpp
-// Quantized Matrix Multiplication (Planned API)
+// QuantizedPagedKVCache - Implemented (QuantizedKVCache.h)
+QuantizationConfig config(QuantizationType::INT8, QuantizationStrategy::PER_TENSOR);
+QuantizedPagedKVCache qCache(numLayers, numHeads, headDim, blockSize, maxSeqLen, config, elementType);
+qCache.appendKV(...);  // Automatic quantization/dequantization
+float ratio = qCache.getCompressionRatio();  // ~4x INT8, ~8x INT4
+
+// Quantized Matrix Multiplication (API)
 void quantizedMatMul(
     const void* input,           // Input activations (typically FP16)
     const int8_t* weights,       // Quantized weights (INT8/INT4)
@@ -106,13 +113,17 @@ void quantizedMatMul(
 );
 ```
 
+## Implemented Features
+
+- **QuantizedPagedKVCache**: INT8 (4×), INT4 (8×) compression; per-tensor and per-channel
+- **QuantizationConfig**: `QuantizationType`, `QuantizationStrategy`, group size
+- **Model-specific**: `LlamaOptimizer.getRecommendedQuantConfig()`, `PhiOptimizer` presets
+
 ## Future Directions
 
-As part of LLMIR's advanced features (Phase 3), quantization support will be enhanced with:
+- Sparse-quantized representations
+- Dynamic quantization
+- Calibration tools
+- Automated mixed precision
 
-- **Sparse-Quantized Representations**: Combining sparsity and quantization
-- **Dynamic Quantization**: Adaptive precision based on content
-- **Calibration Tools**: Utilities for determining optimal quantization parameters
-- **Automated Mixed Precision**: Intelligent selection of precision for different model parts
-
-This feature is planned for Phase 3 of the LLMIR project development. 
+See [KV Cache Optimization](KVCache) and [Performance Evaluation](PerformanceEvaluation) for benchmark results. 

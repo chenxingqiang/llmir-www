@@ -1,11 +1,14 @@
 ---
 title: "How to Contribute"
 date: 2019-11-29T15:26:15Z
+lastmod: 2025-02-04T15:26:15Z
 draft: false
 weight: 15
 ---
 
-Everyone is welcome to contribute to MLIR. There are several ways of getting
+Everyone is welcome to contribute to LLMIR. The project uses the [llmir GitHub repository](https://github.com/chenxingqiang/llmir) for code and issues.
+
+There are several ways of getting
 involved and contributing including reporting bugs, improving documentation and
 tutorials.
 
@@ -16,9 +19,7 @@ which pledges to foster an open and welcoming environment.
 
 ### Contributing code
 
-Please send [pull-request](https://llvm.org/docs/GitHub.html#github-reviews) on
-GitHub. If you don't have write access to the repo, just leave a comment asking
-the reviewer to hit the merge button it for you.
+Please send [pull requests](https://github.com/chenxingqiang/llmir/pulls) on GitHub. If you don't have write access, fork the repo and open a PR from your fork.
 
 #### Commit messages
 
@@ -31,20 +32,13 @@ details.
 
 ### Issue tracking
 
-To report a bug, use the [MLIR product on the LLVM bug
-tracker](https://github.com/llvm/llvm-project/issues/new), try to pick a
-suitable component for the bug, or leave it in the default.
+To report a bug or request a feature, use the [LLMIR GitHub Issues](https://github.com/chenxingqiang/llmir/issues).
 
-If you want to contribute, start working through the MLIR codebase, navigate to
-[the "good first issue" issues](https://github.com/llvm/llvm-project/issues)
-and start looking through interesting issues. If you decide to start on an
-issue, leave a comment so that other people know that
-you're working on it. If you want to help out, but not alone, use the issue
-comment thread to coordinate.
+If you want to contribute, browse the [repository](https://github.com/chenxingqiang/llmir) and [open issues](https://github.com/chenxingqiang/llmir/issues). Comment on an issue to indicate you're working on it.
 
 ### Contribution guidelines and standards
 
-*   Read the [developer guide](DeveloperGuide.md "here").
+*   Read the [Developer Guide](DeveloperGuide.md).
 *   Ensure that you use the correct license. Examples are provided below.
 *   Include tests when you contribute new features, as they help to a)
     prove that your code works correctly, and b) guard against future breaking
@@ -54,6 +48,4 @@ comment thread to coordinate.
 
 #### License
 
-Include a license at the top of new files.
-
-* [C/C++ license example](https://github.com/llvm/llvm-project/blob/main/mlir/examples/toy/Ch1/toyc.cpp)
+Include a license at the top of new files. LLMIR uses Apache-2.0 with LLVM exceptions. See [LICENSE.TXT](https://github.com/chenxingqiang/llmir/blob/main/LICENSE.TXT) in the repository.

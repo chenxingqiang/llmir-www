@@ -45,10 +45,15 @@ Benchmarking and evaluation methodologies for measuring LLMIR's impact on infere
 
 ## Development Status
 
-LLMIR is currently in active development, following a phased approach:
+LLMIR has completed Phases 1–6 of its development roadmap:
 
-1. **Phase 1 (Current Focus)**: Building the core infrastructure, including MLIR dialect design and implementation
-2. **Phase 2 (Planned)**: Implementing core optimizations like KV cache management and attention fusion
-3. **Phase 3 (Future)**: Adding advanced features such as quantization, parallelism strategies, and advanced hardware targeting
+1. **Phase 1–2** ✅: Core infrastructure, MLIR dialect, KV cache management, attention fusion
+2. **Phase 3** ✅: Quantization (INT8/INT4), tensor/pipeline parallelism, multi-GPU sharding
+3. **Phase 4** ✅: Speculative decoding, prefix caching, adaptive block management
+4. **Phase 5** ✅: Continuous batching, vLLM integration, comprehensive benchmarks
+5. **Phase 6** ✅: Python bindings, model-specific optimizations (Llama, Mistral, Phi), profiling tools
+6. **Phase 7** (Planned): HuggingFace integration, distributed training, Kubernetes support
+
+**Verification**: C++ MLIR dialect builds with MLIR 18; 84/84 unit tests passed. See [Publications](/pubs/) for the ICCD 2025 paper.
 
 For more information on contributing to LLMIR, please see the [Developer Guide](/getting_started/DeveloperGuide/). 

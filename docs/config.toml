@@ -21,7 +21,7 @@ disablePathToLower = true
     description = "Large Language Model IR Compiler Framework"
     # Update menubar link too.
     github_repository = "https://github.com/chenxingqiang/llmir"
-    version = "0.0.1"
+    version = "0.1.0"
 
     # Documentation repository section
     # documentation repository (set edit link to documentation repository)

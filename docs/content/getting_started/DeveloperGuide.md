@@ -1,6 +1,7 @@
 ---
 title: "Developer Guide"
 date: 2024-05-09T15:26:15Z
+lastmod: 2025-02-04T15:26:15Z
 draft: false
 ---
 
@@ -8,103 +9,126 @@ draft: false
 
 This guide provides an overview of how to develop with LLMIR.
 
-## Building LLMIR
+## Quick Start
 
-LLMIR is built on top of the MLIR ecosystem. To build LLMIR, you'll need:
+### Python (Recommended for most users)
 
-1. A C++ compiler (GCC or Clang) with C++17 support
-2. CMake (3.13.4 or higher)
-3. Python (3.7 or higher)
-4. Ninja or Make build system
+```bash
+pip install llmir
+# Or with optional dependencies:
+pip install llmir[dev]    # Development tools (pytest, black, mypy)
+pip install llmir[full]   # Full stack with torch and transformers
+```
 
-### Clone the Repository
+```python
+import llmir
+
+config = llmir.KVCacheConfig(num_layers=32, num_heads=32, head_dim=128)
+cache = llmir.PagedKVCache(config)
+
+optimizer = llmir.LlamaOptimizer.for_llama3_8b()
+kv_config = optimizer.get_optimized_kv_cache_config()
+```
+
+### C++ MLIR Dialect Build
+
+For building the LLM dialect with MLIR 18:
 
 ```bash
 git clone https://github.com/chenxingqiang/llmir.git
 cd llmir
-```
 
-### Configure the Build
-
-```bash
+# Standalone LLM dialect build (see build_llm_dialect/)
+cd build_llm_dialect
 mkdir build && cd build
 cmake -G Ninja ..
+ninja
 ```
 
-### Build
+## Building LLMIR from Source
+
+LLMIR is built on top of the MLIR ecosystem. Prerequisites:
+
+1. C++ compiler (GCC or Clang) with C++17 support
+2. CMake 3.13.4+
+3. Python 3.8+ (for bindings)
+4. Ninja or Make
+
+### Clone and Build
 
 ```bash
+git clone https://github.com/chenxingqiang/llmir.git
+cd llmir
+mkdir build && cd build
+cmake -G Ninja ..
 ninja
+ninja check-llmir   # Run tests
 ```
 
 ## LLMIR Project Structure
 
-The LLMIR project is structured as follows:
-
 ```
-include/mlir/Dialect/LLM/       # MLIR dialect definitions
-  ├── IR/                       # MLIR operations and types
-  └── Runtime/                  # Runtime support headers
+include/mlir/Dialect/LLM/
+  ├── IR/                     # Dialect ops: LLM.td, LLMTypes.td
+  └── Runtime/                # PagedKVCache.h, QuantizedKVCache.h, etc.
 
-lib/Dialect/LLM/                # Implementation
-  ├── IR/                       # MLIR operation implementations
-  └── Runtime/                  # Runtime library implementations
+lib/Dialect/LLM/
+  ├── IR/                     # LLMDialect.cpp, LLMOps.cpp, LLMTypes.cpp
+  ├── Transforms/             # KVCacheOptimization.cpp
+  └── Runtime/                # AttentionOpt.cpp, PagedKVCache impl
 
-test/Dialect/LLM/               # Tests
-  ├── IR/                       # MLIR operation tests
-  └── Runtime/                  # Runtime tests
+build_llm_dialect/            # Standalone C++ dialect build (MLIR 18)
+llm_dialect_build/            # C++ dialect test harness
 
-examples/                       # Example applications
-  └── kv_cache_example.cpp      # KV cache example
+python/mlir/dialects/llm/     # Python bindings
+benchmark/LLM/                # Benchmarks
+test/Dialect/LLM/             # MLIR lit tests
+tests/                        # Python pytest (84 tests)
+IEEE-conference/              # ICCD 2025 paper, figures, verification
+examples/                     # demo_llmir_0.6b.py, etc.
 ```
 
-## Core Components (Under Development)
+## Running Benchmarks
 
-LLMIR is being developed in phases according to our [development plan](https://github.com/chenxingqiang/llmir.git). The core components are:
+```bash
+# Real model benchmark (Qwen2.5-7B, vLLM comparison)
+./run_real_benchmark.sh
 
-### Phase 1: Basic Infrastructure
+# Comprehensive benchmark with vLLM and SGLang
+./comprehensive_benchmark.sh
 
-- **LLM MLIR Dialect**: Specialized dialect defining operations and types for LLM inference
-- **Custom Type System**: Types for representing KV caches, sharded tensors, etc.
-- **Core Operations**: Attention, linear, layernorm, etc.
+# Quick vLLM comparison
+./vllm_comparison.sh
 
-### Phase 2: Core Optimizations
-
-- **KV Cache Management**: PagedAttention-style block-based KV cache handling
-- **Attention Computation**: Fusion and optimization of attention operations
-- **Memory Management**: Block allocation and recycling strategies
-
-### Phase 3: Advanced Features
-
-- **Quantization Support**: INT8/INT4 quantization transformations
-- **Parallelism Strategies**: Tensor and pipeline parallelism
-- **Backend Code Generation**: CUDA/CPU/accelerator support
-
-## Contributing to LLMIR
-
-LLMIR is in the early phases of development, and contributions are welcome. Here's how you can contribute:
-
-1. Review the development plan in our repository
-2. Choose an area to focus on (dialect design, optimization, etc.)
-3. Follow standard MLIR development practices
-4. Submit pull requests with well-tested changes
-
-## Development Workflow
-
-We recommend the following workflow for contributing to LLMIR:
-
-1. Create a new branch for your feature
-2. Implement the necessary changes with appropriate tests
-3. Update documentation to reflect your changes
-4. Submit a pull request for review
+# Llama-3.1 benchmark (see benchmark/LLM/)
+cd benchmark/LLM
+./setup_llama31_benchmark.sh
+./run_llama31_benchmark.sh
+```
 
 ## Running Tests
 
-Once tests are implemented, you can run them from the build directory:
-
 ```bash
-ninja check-llmir
+# Python tests (84 tests)
+python -m pytest tests/ -v
+
+# C++ LLM dialect tests
+cd build_llm_dialect/build
+ninja
+./tools/llmir-opt ../test/Dialect/LLM/kv_cache_ops.mlir -kv-cache-optimization
 ```
+
+## Core Components (Implemented)
+
+- **LLM MLIR Dialect**: `llm.append_kv`, `llm.lookup_kv`, `llm.paged_attention`; `!llm.paged_kv_cache`
+- **KV Cache**: PagedKVCache, QuantizedKVCache (INT8/INT4), DistributedKVCache
+- **Advanced**: SpeculativeKVCache, PrefixCache, ContinuousBatchingEngine
+- **Model Optimizers**: LlamaOptimizer, MistralOptimizer, PhiOptimizer, ModelRegistry
+- **Profiling**: Profiler, LatencyProfiler, ThroughputMonitor
+
+## Contributing to LLMIR
+
+Contributions are welcome. See [Contributing](/getting_started/Contributing/).
 
 ## Example: KV Cache in MLIR
 
